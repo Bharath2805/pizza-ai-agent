@@ -1,35 +1,88 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import ChatInterface from './components/ChatInterface';
+import MenuDisplay from './components/MenuDisplay';
+import OrderSummary from './components/OrderSummary';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [menu, setMenu] = useState(null);
+  const [currentOrder, setCurrentOrder] = useState({
+    items: [],
+    customer: {},
+    total: 0,
+    status: 'building'
+  });
+  const [sessionId, setSessionId] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMenu();
+  }, []);
+
+  const fetchMenu = async () => {
+    try {
+      console.log("Fetching menu...");
+      const response = await fetch('/api/menu');
+      const menuData = await response.json();
+      console.log("Menu loaded:", menuData);
+      setMenu(menuData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching menu:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleOrderUpdate = (order, session_id) => {
+    console.log("Order updated:", order);
+    setCurrentOrder(order || {
+      items: [],
+      customer: {},
+      total: 0,
+      status: 'building'
+    });
+    if (session_id) {
+      setSessionId(session_id);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <div className="loading-spinner"></div>
+        <p>Loading menu...</p>
+      </div>
+    );
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <header className="app-header">
+        <h1>🍕 Tony's Pizza AI Assistant</h1>
+        <p>Order your favorite pizza with our AI-powered assistant</p>
+      </header>
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <MenuDisplay menu={menu} />
+        </div>
+        
+        <div className="center-panel">
+          <ChatInterface 
+            onOrderUpdate={handleOrderUpdate}
+            sessionId={sessionId}
+          />
+        </div>
+        
+        <div className="right-panel">
+          <OrderSummary 
+            order={currentOrder}
+            sessionId={sessionId}
+          />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
