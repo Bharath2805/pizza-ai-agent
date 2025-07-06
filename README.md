@@ -1,4 +1,5 @@
 # Pizza AI Agent - Complete Implementation
+https://www.mermaidchart.com/app/projects/0f052ec8-4a50-4db5-9721-49e062d81108/diagrams/71205c70-82cb-4327-8efa-90bae2e55218/version/v0.1/edit
 
 A full-stack pizza ordering system powered by AI, featuring voice recognition and text-to-speech capabilities.
 
@@ -19,6 +20,10 @@ This project is a web application that allows users to order pizzas using text o
 - Stores data in an SQLite database
 - Includes data validation with Pydantic
 - Supports cross-origin requests with CORS middleware
+
+How It Works
+A visual representation of the workflow can be found in the 
+https://www.mermaidchart.com/app/projects/0f052ec8-4a50-4db5-9721-49e062d81108/diagrams/71205c70-82cb-4327-8efa-90bae2e55218/version/v0.1/edit.
 
 ### Main Features
 - **Voice Input**: Users can speak their order using a microphone button
