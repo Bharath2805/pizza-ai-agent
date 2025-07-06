@@ -1,5 +1,4 @@
 # Pizza AI Agent - Complete Implementation
-https://www.mermaidchart.com/app/projects/0f052ec8-4a50-4db5-9721-49e062d81108/diagrams/71205c70-82cb-4327-8efa-90bae2e55218/version/v0.1/edit
 
 A full-stack pizza ordering system powered by AI, featuring voice recognition and text-to-speech capabilities.
 
